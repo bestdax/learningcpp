@@ -1,0 +1,96 @@
+\chapter{折迭表达式}
+今天无意中发现了C++的这个在17标准中引用的新的功能，看了一下非常强悍。先来看一个示例：
+\begin{cpplst}
+template<typename... Args>
+bool all(Args... args) { return (... && args); }
+
+bool b = all(true, true, true, false);
+// within all(), the unary left fold expands as
+//  return ((true && true) && true) && false;
+// b is false
+\end{cpplst}
+上面的代码会实现将\cppinline{Python}中类似的效果，同样也可以用来轻松实现\cppinline{any}等。
+
+\section{语法结构}
+\cppinline{cppreference}网站上将折叠表达式的语法分为以下四类：
+\begin{enumerate}
+	\item \cppinline{( pack op ... )} 单目右折迭
+	\item \cppinline{( ... op pack )} 单目左折迭
+	\item \cppinline{( pack op ... op init )} 双目右折迭
+	\item \cppinline{( init op ... op pack )} 双目左折迭
+\end{enumerate}
+
+\begin{description}
+	\item[\cppinline{op}] 一共下列32种双元操作符:\footnote{好不容易把这些符号输入进来}
+
+	      \forcsvlist{\cppinline}{+, -, *, /, @\%@, ^, &, |, =, <, >, <<, >>, +=, -=, *=, /=,@\%@=}
+
+	      \forcsvlist{\cppinline}{^=, &=, |=, <<=, >>=, ==, !=, <=, >=, &&, ||, @\texttt{,}@, .*, ->*}
+
+	      注意在双元折叠模式下两个操作符必须是一样的。
+	\item[\cppinline{pack}] 一个包含未展开的参数包的表达式，并且在顶层不包含优先级低于强制类型转换的运算符(即\cppinline{cast})。
+	\item[\cppinline{init}]
+	      一个表达式，它不包含未展开的参数包，并且在顶层不包含优先级低于强制类型转换的运算符(即\cppinline{cast})。
+\end{description}
+\emph{注意外围的圆括号，这是表达式的一部分。}
+
+\section{说明}
+\noindent
+\begin{description}
+	\item[单目右折迭] \cppinline{E op ...}展开成\cppinline{(E@$_1$@ op (... op (E@$_{N-1}$@ op E@$_N$@)))}
+	\item[单目左折迭] \cppinline{... op E}展开成\cppinline{(((E@$_1$@ op E@$_2$@) op ...) op E@$_N$@)}
+	\item[双目右折迭] \cppinline{E op ... op I}展开成\cppinline{(E@$_1$@ op (... op (E@$_{N-1}$@ op (E@$_N$@ op I))))}
+	\item[双目左折迭] \cppinline{I op ... op E}展开成\cppinline{((((I op E@$_1$@) op E@$_2$@) op ...) op E@$_N$@)}
+\end{description}
+
+当\cppinline{pack}为空时，只有\forcsvlist{\cppinline}{&&, ||, @\texttt{,}@}三种运算符可以使用，并有如下规定：
+\begin{description}
+
+	\item[逻辑与\cppinline{&&}]当参数包为空时，逻辑与运算的结果是
+	      \cppinline{true}。这是因为逻辑与运算通常用于检查多个条件是否全部为
+	      \cppinline{true}。如果没有条件要检查，可以认为没有条件被违反，因此默认结果为 \cppinline{true}。
+
+	\item[逻辑或\cppinline{||}]当参数包为空时，逻辑或运算的结果是
+	      \cppinline{false}。这是因为逻辑或运算通常用于检查是否至少有一个条件为
+	      \cppinline{true}。如果没有条件要检查，意味着没有任何条件满足，因此默认结果为 \cppinline{false}。
+
+	\item[逗号运算符\cppinline{@,@}]：当参数包为空时，逗号运算符的结果为
+	      \cppinline{void()}。这是因为逗号运算符用于顺序执行一系列表达式，如果没有表达式要执行，其结果自然应该是
+	      \cppinline{void} 类型，表示没有返回值。
+\end{description}
+
+\section{示例}
+\begin{cpplst}
+// 打印多个参数并在中间在“， ”隔开
+
+template<typename... Args>
+void print(Args&&... args)
+{
+	// Print all arguments separated by ", "
+	bool first = true;
+	((std::cout << (first ? first = false, "" : ", ") << args), ...) << std::endl;
+}
+\end{cpplst}
+
+\begin{cpplst}
+// 基本上都需要用圆括号括起来
+
+template<typename... Args>
+int sum(Args&&... args)
+{
+//  return (args + ... + 1 * 2);  
+// Error: operator with precedence below cast
+    return (args + ... + (1 * 2)); // OK
+}
+\end{cpplst}
+
+\begin{cpplst}
+std::vector<int> ivec{};
+template<typename... Args>
+auto push_back(Args&&... args)
+{
+	(..., (ivec.push_back(args)));
+}
+
+// 此示例中把...与操作调换位置也不影响插入的顺序
+\end{cpplst}

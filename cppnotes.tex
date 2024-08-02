@@ -1,0 +1,43 @@
+%!tex program = lualatex
+\documentclass[a4paper]{ctexbook}
+\hfuzz=32pt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[outputdir=build]{minted}
+\usemintedstyle{colorful}
+\newmintinline[xcppinline]{cpp}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% silent warnings
+\usepackage{silence}
+\WarningFilter{latexfont}{Font shape}
+\WarningFilter{latexfont}{Size substitution}
+\WarningFilter{latexfont}{Some font}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+\colorlet{titlecolor}{green!60!blue}
+\colorlet{framecolor}{green!70!blue!30}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\newcommand{\cppinline}[1]{{\begin{tikzpicture}[baseline=(code.base)]
+				\node[inner sep=2pt, text height=8pt, text depth=2pt, rounded corners=2pt, fill=black!5,
+					draw=black!20](code){\xcppinline[escapeinside=@@]{#1}};
+				\useasboundingbox ([xshift=-1pt]current bounding box.west) rectangle ([xshift=1pt]current bounding box.east);
+			\end{tikzpicture}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[all]{tcolorbox}
+% tcolorbox settings
+\newtcblisting[auto counter,number within=section]{cpplst}[1][]{%
+listing engine=minted,
+minted language=cpp,
+listing only,
+minted options app={linenos, numbersep=5pt},
+lower separated=false,
+colframe=framecolor,
+righthand width=3cm,
+title={\textsf{代码示例\thetcbcounter}},
+#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+\include{fold_expression}
+\end{document}
