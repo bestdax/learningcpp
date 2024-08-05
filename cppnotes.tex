@@ -29,10 +29,9 @@
 listing engine=minted,
 minted language=cpp,
 listing only,
-minted options app={linenos, numbersep=5pt},
+minted options app={linenos, numbersep=5pt, escapeinside=||, tabsize=4},
 lower separated=false,
 colframe=framecolor,
-righthand width=3cm,
 title={\textsf{代码示例\thetcbcounter}},
 #1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -40,4 +39,6 @@ title={\textsf{代码示例\thetcbcounter}},
 
 \begin{document}
 \include{fold_expression}
+\include{filesystem}
+\include{pragma}
 \end{document}
