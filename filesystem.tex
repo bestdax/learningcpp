@@ -1,0 +1,69 @@
+\chapter{文件系统}
+\cppinline{filesystem}库是在\cppinline{C++17}中引入的，这是一个用于操作文件系统及其组件的库，包括路径、常规文件和目录等。文件系统库最初是作为
+\cppinline{Boost} 库的一部分开发的，后来成为 \cppinline{ISO/IEC TS 18822:2015} 技术规范，并最终在 \cppinline{C++17} 中合并为标准部分。
+
+\section{功能概述}
+文件系统库提供了一系列的功能，包括但不限于：
+\begin{itemize}[label=\daxfile]
+	\item 路径操作
+	\item 文件和目录的创建、复制、移动和删除
+	\item 检查文件存在性、类型和权限
+	\item 获取和设置文件的最后写入时间
+	\item 符号链接的创建和读取
+\end{itemize}
+
+\section{核心概念}
+\subsection{文件类型}
+\begin{description}
+	\item[\faFile 文件\cppinline{file}] 文件是计算机存储的一种基本单元，它包含数据或信息。文件可以是文本文档、图片、程序、音频、视频等。在操作系统中，文件通常有一个名称和路径，并且具有特定的属性，如大小、权限、创建时间等。
+	\item[\daxfolder 目录\cppinline{directory}] 文件系统中的一种特殊文件，用于组织和管理文件。目录可以包含文件和其他子目录，形成层次结构（树结构）。目录帮助用户和系统更有效地管理和访问文件。根目录是文件系统的顶层目录，所有文件和目录都可以追溯到根目录。
+	\item[\daxfile 普通文件\cppinline{regular file}] 常规文件是文件系统中最常见的文件类型，它包含用户数据或程序数据。常规文件可以是文本文件、二进制文件、图像文件、音频文件等。与其他特殊文件（如目录、设备文件、符号链接等）不同，常规文件直接包含数据。
+	\item [\faLink 符号链接\cppinline{symbolic link}]符号链接（符号链接或软链接）是文件系统中的一种特殊文件，它包含指向另一个文件或目录的路径。符号链接本身不包含数据，而是一个引用指向目标文件或目录。符号链接允许用户创建快捷方式，方便地访问或管理文件和目录。符号链接与目标文件或目录之间是独立的，如果目标被删除或移动，符号链接会变成断开的链接。
+	\item [\faFile* 特殊文件\cppinline{special file}]block, character, fifo, socket等。
+\end{description}
+
+\subsection{路径}
+\begin{description}
+	\item[\faRoad 绝对路径\cppinline{absolute path}]明确标识文件位置的路径。
+	\item[\faRoad 规范路径\cppinline{canonical path}]不包含符号链接、\cppinline{.} 或 \cppinline{..} 元素的绝对路径。
+	\item[\faRoad 相对路径\cppinline{relative
+	path}]相对于文件系统中某个位置标识文件位置的路径。当前目录是\cppinline{.}，上层目录为\cppinline{..}。
+\end{description}
+
+\section{路径}
+\centering
+\tt
+\begin{longtable}{ll}\toprule
+	成员函数                & 功能                               \\\midrule
+	\endfirsthead
+	\toprule
+	成员函数                & 功能                               \\\midrule
+	\endhead
+	\bottomrule
+	\multicolumn{2}{r}{接下页}
+	\endfoot
+	\endlastfoot
+	preferred\_separator    & 当前系统的路径分隔符               \\
+	operator\textbackslash= & 用\textbackslash 合并两个路径      \\
+	operator+=              & 合并两个路径(不添加\textbackslash) \\
+	clear                   & 清除路径对象的内容                 \\
+	make\_preferred         & 用指定的分隔符来改变路径           \\
+	remove\_filename        & 删除路径中的文件名称               \\
+	replace\_filename       & 替换路径中的文件名称               \\
+	replace\_extension      & 替换路径中的文件后缀名             \\
+	parent\_path            & 返回上一级目录                     \\
+	filename                & 返回文件名                         \\
+	stem                    & 返回文件名(不包含后缀)             \\
+	extension               & 返回文件后缀名                     \\
+	empty                   & 检查路径是否为空                   \\
+	has\_relative\_path     & 检查是否有相对路径                 \\
+	has\_parent\_path       & 检查是否有上层目录                 \\
+	has\_filename           & 检查是否有文件名                   \\
+	has\_stem               & 检查是否有文件名(不含后缀)         \\
+	has\_extension          & 检查是否有后缀名                   \\
+	is\_absolute            & 检查是否为绝对路径                 \\
+	is\_relative            & 检查是否为相对路径                 \\
+	swap                    & 交换两个路径                       \\
+	begin / end             & 迭代器                             \\
+	\bottomrule
+\end{longtable}
