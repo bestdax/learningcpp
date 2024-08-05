@@ -1,5 +1,5 @@
 \chapter{折迭表达式}
-今天无意中发现了C++的这个在17标准中引用的新的功能，看了一下非常强悍。先来看一个示例：
+今天\footnote{2024年08月01日}无意中发现了C++的这个在17标准中引用的新的功能，看了一下非常强悍。先来看一个示例：
 \begin{cpplst}
 template<typename... Args>
 bool all(Args... args) { return (... && args); }
