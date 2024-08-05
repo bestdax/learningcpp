@@ -1,5 +1,5 @@
 \chapter{pragma预处理命令}
-\cppinline{#pragma} 命令在 \cppinline{C++}
+\cppinline{@\#@pragma} 命令在 \cppinline{C++}
 中是一个预处理指令，用于控制编译器的特定实现行为。它允许开发者向编译器发出特定指令，这些指令通常是编译器特有的，不是
 \cppinline{C++} 标准的一部分，但主流的编译器都支持。
 
@@ -11,12 +11,12 @@ _Pragma(string-literal)
 一般比较常见的是第一种写法。
 
 \section{pragma STDC}
-在\cppinline{C++}中，\cppinline{#pragma STDC} 是一个预处理器指令，它允许你在编译时指定遵循特定版本的 \cppinline{C} 标准。这个指令主要用于 \cppinline{C} 语言的标准兼容性控制，并不是 \cppinline{C++} 标准的一部分，但是某些 \cppinline{C++} 编译器支持它以提供对 \cppinline{C} 代码的支持。
+在\cppinline{C++}中，\cppinline{@\#@pragma STDC} 是一个预处理器指令，它允许你在编译时指定遵循特定版本的 \cppinline{C} 标准。这个指令主要用于 \cppinline{C} 语言的标准兼容性控制，并不是 \cppinline{C++} 标准的一部分，但是某些 \cppinline{C++} 编译器支持它以提供对 \cppinline{C} 代码的支持。
 
-\cppinline{#pragma STDC} 指令通常用于控制 \cppinline{C99} 或者其他 \cppinline{C} 标准特性的启用或禁用。例如，它可以用来控制是否使用 \cppinline{C99} 的数学库函数或者类型定义等。
+\cppinline{@\#@pragma STDC} 指令通常用于控制 \cppinline{C99} 或者其他 \cppinline{C} 标准特性的启用或禁用。例如，它可以用来控制是否使用 \cppinline{C99} 的数学库函数或者类型定义等。
 
 \subsection{常见用法}
-\cppinline{#pragma STDC} 可以有多个不同的选项，以下是一些常见的选项：
+\cppinline{@\#@pragma STDC} 可以有多个不同的选项，以下是一些常见的选项：
 \begin{description}
 	\item[\cppinline{@\#@pragma STDC FENV_ACCESS ON}]启用对浮点环境的访问。
 	\item[\cppinline{@\#@pragma STDC FENV_ACCESS OFF}]禁用对浮点环境的访问。
@@ -62,11 +62,11 @@ _Pragma(string-literal)
 \cppinline{@\#@pragma pack}。
 \subsection{语法}
 \begin{enumerate}
-	\item \cppinline{#pragma pack(arg)}
-	\item \cppinline{#pragma pack()}
-	\item \cppinline{#pragma pack(push)}
-	\item \cppinline{#pragma pack(push, arg)}
-	\item \cppinline{#pragma pack(pop)}
+	\item \cppinline{@\#@pragma pack(arg)}
+	\item \cppinline{@\#@pragma pack()}
+	\item \cppinline{@\#@pragma pack(push)}
+	\item \cppinline{@\#@pragma pack(push, arg)}
+	\item \cppinline{@\#@pragma pack(pop)}
 \end{enumerate}
 \vfill
 
