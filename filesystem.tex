@@ -32,37 +32,119 @@
 
 \section{路径}
 \begin{longtable}{LL}\toprule
-	\bf{\hfill 成员函数\hfill} & \bf{\hfill 功能\hfill}         \\\midrule
+	\bf{\hfill 成员函数\hfill} & \bf{\hfill 功能\hfill}                              \\\midrule
 	\endfirsthead
-	\multicolumn{2}{l}{接上页}                                  \\
+	\multicolumn{2}{l}{接上页}                                                       \\
 	\toprule
-	\bf{\hfill 成员函数\hfill} & \bf{\hfill 功能\hfill}         \\\midrule
+	\bf{\hfill 成员函数\hfill} & \bf{\hfill 功能\hfill}                              \\\midrule
 	\endhead
 	\bottomrule
 	\multicolumn{2}{r}{接下页}
 	\endfoot
-	\endlastfoot
-	preferred\_separator       & 当前系统的路径分隔符           \\
-	operator\textbackslash=    & 用路径分隔符合并两个路径       \\
-	operator+=                 & 合并两个路径(不添加路径分隔符) \\
-	clear                      & 清除路径对象的内容             \\
-	make\_preferred            & 用指定的分隔符来改变路径       \\
-	remove\_filename           & 删除路径中的文件名称           \\
-	replace\_filename          & 替换路径中的文件名称           \\
-	replace\_extension         & 替换路径中的文件后缀名         \\
-	parent\_path               & 返回上一级目录                 \\
-	filename                   & 返回文件名                     \\
-	stem                       & 返回文件名(不包含后缀)         \\
-	extension                  & 返回文件后缀名                 \\
-	empty                      & 检查路径是否为空               \\
-	has\_relative\_path        & 检查是否有相对路径             \\
-	has\_parent\_path          & 检查是否有上层目录             \\
-	has\_filename              & 检查是否有文件名               \\
-	has\_stem                  & 检查是否有文件名(不含后缀)     \\
-	has\_extension             & 检查是否有后缀名               \\
-	is\_absolute               & 检查是否为绝对路径             \\
-	is\_relative               & 检查是否为相对路径             \\
-	swap                       & 交换两个路径                   \\
-	begin / end                & 迭代器                         \\
 	\bottomrule
+	\endlastfoot
+	operator=                  & 赋值另一个路径对象                                  \\
+	assign                     & 赋值路径内容                                        \\
+	append                     & 用目录分隔符追加元素到路径                          \\
+	operator/=                 & 用目录分隔符追加元素到路径                          \\
+	concat                     & 不引入目录分隔符连接两个路径                        \\
+	operator+=                 & 连接两个路径，不引入目录分隔符                      \\
+	clear                      & 清除路径内容                                        \\
+	make\_preferred            & 转换目录分隔符为首选目录分隔符                      \\
+	remove\_filename           & 移除路径中的文件名组件                              \\
+	replace\_filename          & 替换路径中的最后一个组件为另一个路径                \\
+	replace\_extension         & 替换路径中的扩展名                                  \\
+	swap                       & 交换两个路径对象                                    \\
+	c\_str                     & 返回路径的原生字符串表示形式                        \\
+	native                     & 返回路径的原生格式字符串                            \\
+	operator string\_type      & 返回字符串原生格式                                  \\
+	string                     & 返回字符串原生格式，类型为\texttt{std::string}      \\
+	wstring                    & 返回字符串原生格式，类型为\texttt{std::wstring}     \\
+	u8string                   & 返回字符串UTF-8编码，类型为\texttt{std::string}     \\
+	u16string                  & 返回字符串UTF-16编码，类型为\texttt{std::u16string} \\
+	u32string                  & 返回字符串UTF-32编码，类型为\texttt{std::u32string} \\
+	generic\_string            & 返回字符串通用格式                                  \\
+	generic\_wstring           & 返回宽字符串，使用通用格式                          \\
+	generic\_u8string          & 返回UTF-8字符串形式，使用通用格式                   \\
+	generic\_u16string         & 返回UTF-16字符串形式，使用通用格式                  \\
+	generic\_u32string         & 返回UTF-32字符串形式，使用通用格式                  \\
+	compare                    & 对两个路径的词法表示进行字典序比较                  \\
+	lexically\_normal          & 将路径转换为规范化形式                              \\
+	lexically\_relative        & 将路径转换为相对形式                                \\
+	lexically\_proximate       & 将路径转换为近似形式                                \\
+	root\_name                 & 返回路径的根名称，如果存在                          \\
+	root\_directory            & 返回路径的根目录，如果存在                          \\
+	root\_path                 & 返回路径的根路径，如果存在                          \\
+	relative\_path             & 返回相对于根路径的路径                              \\
+	parent\_path               & 返回父路径                                          \\
+	filename                   & 返回路径中的文件名组件                              \\
+	stem                       & 返回路径中的文件干（不包括最终扩展名）              \\
+	extension                  & 返回路径中的文件扩展名组件                          \\
+	empty                      & 检查路径是否为空                                    \\
+	has\_root\_path            & 检查路径是否有根路径                                \\
+	has\_root\_name            & 检查路径是否有根名称                                \\
+	has\_root\_directory       & 检查路径是否有根目录                                \\
+	has\_relative\_path        & 检查路径是否有相对路径                              \\
+	has\_parent\_path          & 检查路径是否有父路径                                \\
+	has\_filename              & 检查路径是否有文件名                                \\
+	has\_stem                  & 检查路径是否有文件干                                \\
+	has\_extension             & 检查路径是否有扩展名                                \\
+	is\_absolute               & 检查路径是否为绝对路径                              \\
+	is\_relative               & 检查路径是否为相对路径                              \\
+	begin                      & 返回路径的迭代器，开始遍历                          \\
+	end                        & 返回路径迭代器，结束遍历                            \\
+\end{longtable}
+
+\section{非成员函数}
+\begin{longtable}{LL}
+	\bf{\hfill 非成员函数\hfill} & \bf{\hfill 功能\hfill}                 \\\midrule
+	\endfirsthead
+	\multicolumn{2}{l}{接上页}                                            \\
+	\toprule
+	\bf{\hfill 非成员函数\hfill} & \bf{\hfill 功能\hfill}                 \\\midrule
+	\endhead
+	\bottomrule
+	\multicolumn{2}{r}{接下页}
+	\endfoot
+	\bottomrule
+	\endlastfoot
+	absolute                     & 组合一个绝对路径                       \\
+	canonical                    & 组合一个规范路径                       \\
+	weakly\_canonical            & 组合一个弱规范路径                     \\
+	relative                     & 组合一个相对路径                       \\
+	proximate                    & 组合一个近似路径                       \\
+	copy                         & 复制文件或目录                         \\
+	copy\_file                   & 复制文件内容                           \\
+	copy\_symlink                & 复制一个符号链接                       \\
+	create\_directory            & 创建新目录                             \\
+	create\_directories          & 创建新目录（包括所有必要的父目录）     \\
+	create\_hard\_link           & 创建一个硬链接                         \\
+	create\_symlink              & 创建一个符号链接                       \\
+	create\_directory\_symlink   & 创建一个目录符号链接                   \\
+	current\_path                & 返回或设置当前工作目录                 \\
+	exists                       & 检查路径是否指向现有的文件系统对象     \\
+	equivalent                   & 检查两个路径是否指向同一个文件系统对象 \\
+	file\_size                   & 返回文件的大小                         \\
+	hard\_link\_count            & 返回指向特定文件的硬链接数量           \\
+	last\_write\_time            & 获取或设置数据最修改的时间             \\
+	permissions                  & 修改文件访问权限                       \\
+	read\_symlink                & 获取符号链接的目标                     \\
+	remove                       & 移除文件或空目录                       \\
+	remove\_all                  & 递归移除文件或目录及其所有内容         \\
+	rename                       & 移动或重命名文件或目录                 \\
+	resize\_file                 & 通过截断或零填充改变普通文件的大小     \\
+	space                        & 确定文件系统上的可用空闲空间           \\
+	status                       & 确定文件属性                           \\
+	symlink\_status              & 确定文件属性，检查符号链接的目标       \\
+	temp\_directory\_path        & 返回适合临时文件的目录                 \\
+	is\_block\_file              & 检查给定路径是否指向块设备             \\
+	is\_character\_file          & 检查给定路径是否指向字符设备           \\
+	is\_directory                & 检查给定路径是否指向目录               \\
+	is\_empty                    & 检查给定路径是否指向空文件或目录       \\
+	is\_fifo                     & 检查给定路径是否指向命名管道           \\
+	is\_other                    & 检查参数是否指向其他文件               \\
+	is\_regular\_file            & 检查参数是否指向普通文件               \\
+	is\_socket                   & 检查参数是否指向命名IPC套接字          \\
+	is\_symlink                  & 检查参数是否指向符号链接               \\
+	status\_known                & 检查文件状态是否已知                   \\
 \end{longtable}
