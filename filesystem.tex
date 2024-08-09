@@ -184,3 +184,24 @@
 	                           & 这些硬链接解析为与原始文件相同的文件。           \\
 \end{longtable}
 
+\section{实际操作}
+\subsection{创建目录}
+用\cppinline{create_directory}只能创建一个目录，如果路径中间有没有创建的目录则会报错，所以保险的话还是用\cppinline{create_directories}。另外用户主目录\cppinline{~}不被识别。但是可以用\cppinline{cstdlib}中的\cppinline{getenv}函数来获取。
+\begin{cpplst}
+|\#|include <cstdlib>
+|\#|include <filesystem>
+
+namespace fs = std::filesystem;
+auto home = std::getenv("HOME");
+fs::path p = home;
+p /= "Downloads/a/b/c/d";
+fs::create_directories(p);
+\end{cpplst}
+
+\subsection{拷贝目录及文件}
+用\cppinline{copy()}命令拷贝目录的时候，默认是拷贝目录及目录下的文件，子文件夹不会被复制，需要用\cppinline{std::filesystem::copy_options::recursive}来指示程序递归拷贝所有的文件夹及文件。
+
+如果仅需要拷贝文件的话，可以使用\cppinline{copy_file()}命令，这个命令在拷贝目录的时候会出错。
+
+\section{删除}
+\cppinline{remove()}、\cppinline{remove_all()}命令接受一个路径，然后进行删除操作，而\cppinline{remove()}命令只能删除一个文件或一个空的目录，如果目录非空会报错。\cppinline{remove_all()}则会递归删除所有的内容。
