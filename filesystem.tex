@@ -148,3 +148,39 @@
 	is\_symlink                  & 检查参数是否指向符号链接               \\
 	status\_known                & 检查文件状态是否已知                   \\
 \end{longtable}
+
+\section{copy options}
+\begin{longtable}{LL}\toprule
+	\bf{\hfill 成员常量\hfill} & \bf{\hfill 功能\hfill}                           \\\midrule
+	\endfirsthead
+	\multicolumn{2}{l}{接上页}                                                    \\
+	\toprule
+	\bf{\hfill 成员常量\hfill} & \bf{\hfill 功能\hfill}                           \\\midrule
+	\endhead
+	\bottomrule
+	\multicolumn{2}{r}{接下页}
+	\endfoot
+	\bottomrule
+	\endlastfoot
+	\multicolumn{2}{c}{\tt\bf 控制copy\_files()的行为}                            \\\midrule
+	none                       & 报告错误（默认行为）。                           \\
+	skip\_existing             & 保留现有文件，不报告错误。                       \\
+	overwrite\_existing        & 替换现有文件。                                   \\
+	update\_existing           & 仅当现有文件比正在复制的文件旧时才替换现有文件。 \\\midrule
+	\multicolumn{2}{c}{\tt\bf 控制copy()的子目录行为}                             \\\midrule
+	none                       & 跳过子目录（默认行为）。                         \\
+	recursive                  & 递归复制子目录及其内容。                         \\\midrule
+	\multicolumn{2}{c}{\tt\bf 控制copy()的符号链接行为}                           \\\midrule
+	none                       & 跟随符号链接（默认行为）。                       \\
+	copy\_symlinks             & 复制符号链接作为符号链接，而不是它们指向的文件。 \\
+	skip\_symlinks             & 忽略符号链接。                                   \\\midrule
+	\multicolumn{2}{c}{\tt\bf 控制copy()复制行为}                                 \\\midrule
+	none                       & 复制文件内容（默认行为）。                       \\
+	directories\_only          & 仅复制目录结构，不复制任何非目录文件。           \\
+	create\_symlinks           & 创建指向原始文件的符号链接，而不是创建文件的     \\
+	                           & 副本。注意：源路径必须是绝对路径，除非目标路     \\
+	                           & 径在当前目录中。                                 \\
+	create\_hard\_links        & 创建硬链，而不是创建文件的副本，                 \\
+	                           & 这些硬链接解析为与原始文件相同的文件。           \\
+\end{longtable}
+
