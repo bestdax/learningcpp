@@ -1,0 +1,112 @@
+\chapter{C++中的<=>运算符}
+
+C++20 引入了 \cppinline{<=>} 运算符，也称为“三路比较运算符”或“太空船运算符”（spaceship operator）。这个运算符主要用于简化和统一比较操作，为对象之间的排序和比较提供了一致的接口。
+
+\section{基本概念}
+\cppinline{<=>} 运算符用于同时处理小于（\cppinline{<}）、等于（\cppinline{==}）和大于（\cppinline{>}）的比较。它返回一个类型的结果，该类型表示两个对象之间的相对顺序：
+
+\begin{itemize}
+	\item 如果左侧操作数小于右侧操作数，返回一个负值\\（通常是\cppinline{std::strong_ordering::less}）。
+	\item 如果左侧操作数等于右侧操作数，返回零\\（通常是\cppinline{std::strong_ordering::equal}）。
+	\item 如果左侧操作数大于右侧操作数，返回一个正值\\（通常是\cppinline{std::strong_ordering::greater}）。
+\end{itemize}
+
+\section{运算符返回类型}
+根据比较的类型不同，\cppinline{<=>} 运算符有种可能的返回类型：
+
+\begin{itemize}
+	\item \cppinline{std::strong_ordering}：用于强排序的比较，可以和所有其他类型进行隐式转换。
+	\item \cppinline{std::weak_ordering}：用于弱排序的比较，支持等价性但不要求全序。
+	\item \cppinline{std::partial_ordering}：用于部分排序的比较，允许有些元素不可比。
+	\item \cppinline{std::strong_equality} 和 \cppinline{std::weak_equality}：用于仅进行等价性比较的场景。
+\end{itemize}
+
+\section{示例}
+以下是一个简单的示例，展示如何在类中使用 \cppinline{<=>} 运算符：
+
+\begin{cpplst}
+|\#|include <iostream>
+|\#|include <compare>
+
+struct Point {
+    int x, y;
+
+    // 使用 <=> 运算符自动生成其他比较运算符
+    auto operator<=>(const Point&) const = default;
+};
+
+int main() {
+    Point p1{1, 2};
+    Point p2{1, 3};
+
+    if (p1 < p2)
+        std::cout << "p1 < p2\n";
+    else if (p1 == p2)
+        std::cout << "p1 == p2\n";
+    else
+        std::cout << "p1 > p2\n";
+}
+\end{cpplst}
+
+在这个例子中，\cppinline{operator<=>} 被定义为 \cppinline{default}，它会自动生成 \cppinline{operator<}、\cppinline{operator<=}、\cppinline{operator>}、\cppinline{operator>=} 和 \cppinline{operator==} 等比较运算符。
+
+\section{自动生成比较运算符}
+定义 \cppinline{<=>} 运算符后，编译器会自动生成以下所有比较运算符：
+
+\begin{itemize}
+	\item \cppinline{operator<}
+	\item \cppinline{operator<=}
+	\item \cppinline{operator>}
+	\item \cppinline{operator>=}
+	\item \cppinline{operator==}
+	\item \cppinline{operator!=}
+\end{itemize}
+
+这简化了代码，避免手动定义多个比较运算符。
+
+\section{自定义 <=> 运算符}
+你也可以自定义 \cppinline{<=>} 运算符以实现复杂的比较逻辑。下面是一个自定义的例子：
+
+\begin{cpplst}
+|\#|include <iostream>
+|\#|include <compare>
+
+struct Point {
+    int x, y;
+
+    auto operator<=>(const Point& other) const {
+        if (auto cmp = x <=> other.x; cmp != 0)
+            return cmp;
+        return y <=> other.y;
+    }
+};
+
+int main() {
+    Point p1{1, 2};
+    Point p2{1, 3};
+
+    if (p1 < p2)
+        std::cout << "p1 < p2\n";
+    else if (p1 == p2)
+        std::cout << "p1 == p2\n";
+    else
+        std::cout << "p1 > p2\n";
+}
+\end{cpplst}
+
+在这个例子中，\cppinline{x} 和 \cppinline{y} 分别进行比较，只有在 \cppinline{x} 值相等时才会比较 \cppinline{y}。
+
+\section{优点}
+\begin{itemize}
+	\item \textbf{简化代码}：通过自动生成多个比较运算符，减少了重复代码。
+	\item \textbf{一致性}：确保所有的比较运算符具有一致的语义。
+	\item \textbf{性能优化}：在某些情况下，编译器可以对比较操作进行优化。
+\end{itemize}
+
+\section{使用注意事项}
+\begin{itemize}
+	\item \textbf{返回类型选择}：应根据需求选择合适的返回类型，使用\\\cppinline{std::strong_ordering} 可确保全序性，而 \cppinline{std::partial_ordering} 可用于部分有序的集合。
+	\item \textbf{默认实现}：对于结构体和类中简单的成员变量比较，可以直接使用 \cppinline{default} 实现，但在有复杂逻辑时，可能需要自定义比较逻辑。
+\end{itemize}
+
+总的来说，\cppinline{<=>} 运算符是C++20中一个强大的新工具，能够显著简化比较运算符的实现，增强代码的可读性和一致性。
