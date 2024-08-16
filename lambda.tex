@@ -1,0 +1,70 @@
+\chapter{Lambda函数}
+
+\cppinline{C++}中的\cppinline{Lambda}函数是匿名函数（即没有名字的函数），它可以在代码中定义和使用，特别适合用于需要短期使用的函数或者传递函数作为参数的场景。Lambda函数在\cppinline{C++11}中引入，极大地增强了\cppinline{C++}的函数式编程能力。
+
+\section{基本语法}
+\cppinline{Lambda}函数的基本语法如下：
+\begin{cpplst}
+|[|捕获列表|]|(参数列表) -> 返回类型 {
+    函数体
+}
+\end{cpplst}
+
+\subsection{捕获列表 \texttt{[ ]}}
+捕获列表用于指定\cppinline{Lambda}函数中可以使用的外部变量。可以按值捕获（即拷贝外部变量），或按引用捕获（即使用外部变量的引用）。捕获列表的具体形式包括：
+\begin{itemize}
+	\item \cppinline{[ ]}：不捕获任何外部变量。
+	\item \cppinline{[=]}：按值捕获所有外部变量。
+	\item \cppinline{[&]}：按引用捕获所有外部变量。
+	\item \cppinline{[this]}：捕获当前类的\cppinline{this}指针（通常在成员函数中使用）。
+	\item \cppinline{[x, &y]}：按值捕获变量\cppinline{x}，按引用捕获变量\cppinline{y}。
+\end{itemize}
+
+\subsection{参数列表 \texttt{( )}}
+参数列表与普通函数类似，用于指定传递给\cppinline{Lambda}函数的参数。如果没有参数，可以省略。
+
+\subsection{返回类型 \texttt{->}}
+返回类型可以省略，编译器会自动推导。如果\cppinline{Lambda}函数体中只有一个返回语句，则可以不写返回类型，编译器会自动推导。如果有多个返回语句且类型不一致，必须显式指定返回类型。
+
+\subsection{函数体 \texttt{\{ \}}}
+函数体是\cppinline{Lambda}函数的主体，包含具体的代码逻辑。
+
+\section{示例}
+以下是一些使用\cppinline{Lambda}函数的简单示例：
+
+\subsection[简单的Lambda函数]{简单的\cppinline{Lambda}函数}
+\begin{cpplst}
+auto sum = [](int a, int b) -> int {
+    return a + b;
+};
+int result = sum(3, 4);  // result = 7
+\end{cpplst}
+
+\subsection{捕获部变量}
+\begin{cpplst}
+int x = 10;
+auto multiply = [x](int y) {
+    return x * y;
+};
+int result = multiply(5);  // result = 50
+\end{cpplst}
+
+\subsection{按引用捕获外部变量}
+\begin{cpplst}
+int x = 10;
+auto add = [&x](int y) {
+    x += y;
+};
+add(5);  // x = 15
+\end{cpplst}
+
+\subsection{使用Lambda函数排序}
+\begin{cpplst}
+std::vector<int> vec = {1, 3, 2, 5, 4};
+std::sort(vec.begin(), vec.end(), [](int a, int b) {
+    return a > b;  // 降序排序
+});
+\end{cpplst}
+
+\section{总结}
+\cppinline{Lambda}函数为\cppinline{C++}提供了更加灵活和简洁的函数定义方式，尤其在需要传递小型函数作为参数的场景下显得非常方便。它结合了捕获外部变量的能力，可以有效减少代码冗余并提高代码的可读性。
