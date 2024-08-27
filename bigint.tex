@@ -1,0 +1,130 @@
+\chapter{大整数的实现}
+大整数类（BigInt）是一种用于处理超出标准数据类型范围的整数的自定义数据结构。在C++中实现BigInt类，可以有效地处理大数运算，如加法、乘法等。
+
+\section{设计原理}
+BigInt类的设计借鉴了Python中的大整数实现，采用数组存储大整数的每一位，其中每个元素为32位无符号整数。有效数据存储在低30位，高2位用于进位信息。
+
+\subsection{内部存储结构}
+使用\cppinline{std::vector<uint32_t>}作为内部存储结构，每个\cppinline{uint32_t}存储大整数的一位，以$2^{30}$为基数。
+
+\section{实现细节}
+\subsection{构造函数}
+BigInt类提供多种构造方式，包括默认构造、从\cppinline{uint64_t}构造、从字符串构造。
+
+\subsection{加法运算}
+加法运算符重载实现两个BigInt对象的加法。通过迭代两个数的每一位，考虑进位，计算每一位的和。
+
+\subsection{乘法运算}
+乘法运算符重载实现两个BigInt对象乘法。采用类似于小学乘法的竖式计算方法，逐位相乘并考虑进位。
+
+\subsection{输出流重载}
+为了能够输出BigInt对象，重载了输出流运算符\cppinline{<<}。需要将内部的二进制表示转换为十进制字符串。
+
+\section{代码实现}
+以下是BigInt类的部分实现代码：
+
+\begin{cpplst}[breakable]
+class BigInt {
+private:
+    std::vector<uint32_t> digits;
+    static const uint32_t BASE = 1 << 30;  // 2^30
+    static const uint32_t MASK = BASE - 1;  // 低30位掩码
+
+    // 移除前导零
+    void trim() {
+        // ... 实现细节 ...
+    }
+
+public:
+    // 默认构造函数
+    BigInt() : digits(1, 0) {}
+
+    // 从uint64_t类型整数构造
+    BigInt(uint64_t num) {
+        while (num > 0) {
+            digits.push_back(num & MASK);
+            num >>= 30;
+        }
+        trim();
+    }
+
+    // 从字符串构造
+    BigInt(const std::string& str) {
+        // ... 实现细节 ...
+    }
+
+    // 加法运算符重载
+    BigInt operator+(const BigInt& other) const {
+        BigInt result;
+        // ... 实现细节 ...
+        return result;
+    }
+
+    // 乘法运算符重载
+    BigInt operator*(const BigInt& other) const {
+        BigInt result;
+        // ... 实现细节 ...
+        return result;
+    }
+
+    // 输出流运算符重载
+    friend std::ostream& operator<<(std::ostream& os, const BigInt& bigint) {
+        if (bigint.digits.empty()) {
+            return os << 0;
+        }
+
+        std::string result;
+        // ... 转换逻辑 ...
+        return os << result;
+    }
+};
+\end{cpplst}
+
+
+\section{输出流重载(operator<<)}
+
+\subsection{代码实现}
+\begin{cpplst}[breakable]
+friend std::ostream& operator<<(std::ostream& os, const BigInt& bigint) {
+    if (bigint.digits.empty()) {
+        return os << 0;
+    }
+
+    std::string result;
+    BigInt base(BASE);
+    BigInt current_value = bigint;
+
+    while (!current_value.digits.empty() && current_value.digits.back() > 0) {
+        uint32_t remainder = 0;
+        for (int i = current_value.digits.size() - 1; i >= 0; --i) {
+            uint64_t temp = (static_cast<uint64_t>(remainder) << 30) + current_value.digits[i];
+            current_value.digits[i] = temp / 10;
+            remainder = temp % 10;
+        }
+        result.push_back('0' + remainder);
+        current_value.trim();
+    }
+
+    std::reverse(result.begin(), result.end());
+    os << result;
+    return os;
+}
+\end{cpplst}
+
+\subsection{逻辑步骤解析}
+\begin{enumerate}
+    \item 处理空对象的情况：如果\cppinline{BigInt}对象的\cppinline{digits}数组为空，则直接输0。
+    \item 初始化变量：创建一个用于存储最终十进制字符串表示的\cppinline{result}字符串。
+    \item 循环处理大整数：使用\cppinline{while}循环，当\cppinline{current_value}不为空且其\cppinline{digits}数组的最后一个元素大于0时，进入循环。
+    \item 逐位计算十进制数：在循环内部，初始化\cppinline{remainder}为0，然后从\cppinline{current\_value.digits}的最高有效位到最低有效位进行遍历。
+    \item 更新当前块和余数：通过\cppinline{temp / 10}更新当前块的值，通过\cppinline{temp @\%@ 10}得到新的余数\cppinline{remainder}。
+    \item 存储当前位并修剪零：将计算得到的余数\cppinline{remainder}转换为字符并添加到\cppinline{result}字符串的末尾。
+    \item 反转字符串并输出：由于从最低有效位开始逐位提取，最终的字符串\cppinline{result}是反向的，需要反转。然后输出到流中。
+\end{enumerate}
+
+\section{注意事项}
+\begin{itemize}
+    \item 在实现乘法和除法时，要特别注意进位和借位的处理。
+    \item 输出流重载需要正确处理每一位的基数权值。
+    \item 对BigInt类的测试应覆盖各种大小的数值，包括边界情况。
+\end{itemize}
