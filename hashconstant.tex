@@ -1,0 +1,39 @@
+\chapter{哈希常数}
+
+在计算机科学和工程中，常常会用到各种常数来优化算法的性能。本文将介绍哈希常数 \cppinline{0x9e3779b9}，它在一些著名的哈希算法中扮演了重要角色。
+
+\section{常数的历史}
+
+\cppinline{0x9e3779b9} 是一个特定的常数，最初由日本计算机科学家 \textit{Peter K. T.} 在其设计的 \textit{Jenkins hash functions} 中使用。这个常数是基于 \textit{Golden Ratio} 的一个变种。其主要目的是在散列计算中提供高效的均匀分布，从而减少冲突的概率。
+
+\section{常数的数学背景}
+
+\cppinline{0x9e3779b9} 以十六进制表示，等于十进制的 \cppinline{2654435769}。该常数与 \textit{Golden Ratio}
+相关，因为它是 {$2^{32}$} 除以 \textit{Golden Ratio}（约为 1.618033988749895）的结果。其精确的计算方式为：
+
+\[
+\cppinline{0x9e3779b9} = \left\lfloor \frac{2^{32}}{\phi} \right\rfloor
+\]
+
+其中 \(\phi\) 为黄金分割数 \(\frac{1 + \sqrt{5}}{2}\)。
+
+\section{在哈希算法中的应用}
+
+\cppinline{0x9e3779b9} 被广泛应用于各种哈希算法和散列函数中。它的使用主要体现在以下几个方面：
+
+\subsection{Jenkins' Hash Functions}
+
+在 Jenkins 的 \textit{One-at-a-Time Hash} 函数中，\cppinline{0x9e3779b9} 被用作初始化常数，通过对数据进行加密处理，确保哈希值的均匀分布。
+
+\subsection{MurmurHash}
+
+\cppinline{0x9e3779b9} 也被用作 MurmurHash 的常数之一，这是一种非加密的散列函数，用于高速数据散列。MurmurHash 使用这个常数来混合数据位，以达到更好的散列质量。
+
+\subsection{CityHash}
+
+在 Google 的 CityHash 中，这个常数用于提高散列的速度和质量，特别是在处理大规模数据时。它通过不同的位移和混合操作，确保了散列结果的均匀性和分布性。
+
+\section{总结}
+
+\cppinline{0x9e3779b9} 是一个重要的哈希常数，因其与黄金分割数的关系以及在多种哈希算法中的应用，成为了哈希函数设计中的一个键组成部分。它的使用帮助提高了算法的性能和可靠性，特别是在处理大量数据时。
+
